@@ -287,8 +287,8 @@ register_activation_hook( __FILE__, 'hestia_slider_install' );
             'nb_slides'		=>	"-1", 
             'largeur_module'	=>	"250", 
             'hauteur_module'	=>	"400",
-            'largeur_image'		=>	"220", 
-            'hauteur_image'		=>	"165", 
+            'largeur_image'	=>	"220", 
+            'hauteur_image'	=>	"165", 
             'lien_lire_plus'	=>	"Lire plus..."
         );
         add_option('hestia_config', $hestia_config_install);
@@ -297,7 +297,7 @@ register_activation_hook( __FILE__, 'hestia_slider_install' );
             'visib_image'		=>	"1", 
             'visib_date'		=>	"1", 
             'visib_titre'		=>	"1", 
-            'titre_cliquable'	=>	"1", 
+            'titre_cliquable'           =>	"1", 
             'visib_bouton_archives'	=>	"1" 
         );
         add_option('hestia_mise_en_forme', $hestia_mise_en_forme_install);
