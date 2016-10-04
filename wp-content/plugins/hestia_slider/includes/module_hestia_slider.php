@@ -199,9 +199,9 @@ function hestia_slider($args_hestia, $instance_hestia='1', $widget_title='HESTIA
 	# Suite du chargement des scripts
 	$activation_optimise_code_2 = get_option('activation_optimise_code');
 	$params['instances'][] = '.widget-' . $instance_hestia . ' .hestia_slider_photo';
-	$params['direction'][] = $hestia_config['direction'];
-	$params['vitesse'][] = $hestia_config['vitesse'];
-	$params['timeout'][] = $hestia_config['timeout'];
+	$params['direction'][] = $instance_hestia['type_defilement'];
+	$params['vitesse'][] = $instance_hestia['duree_defilement'];
+	$params['timeout'][] = $instance_hestia['delai_defilement'];
 	# Chargement optimisé des scripts
 	if( !is_admin() && $activation_optimise_code_2['desactive_optimise_code'] === "1" ){
 		wp_localize_script( 'hestia_slider', 'Hestia_Slider_Params', $params );

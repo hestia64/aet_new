@@ -253,21 +253,33 @@ add_action( 'widgets_init','initialisation_widget_hestia_slider');
             }
             ?>
             <p>
-                Nom du module : <?php echo $this->id; ?><br/>
+                Nom du module : <h4>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <?php echo $this->id; ?></h4>
                 <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label> 
                 <input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>" />
                 <br/><br/>
                 <label for="<?php echo $this->get_field_id( 'voir_actus' ); ?>"><?php _e( 'Texte du lien vers la liste des slides : <br/> Par défaut : "Voir toutes les actualités"' ); ?></label> 
                 <input class="widefat" id="<?php echo $this->get_field_id( 'voir_actus' ); ?>" name="<?php echo $this->get_field_name( 'voir_actus' ); ?>" type="text" value="<?php echo esc_attr( $voir_actus ); ?>" />
                 <h3>Paramètres du slide</h3>
-                <label for="<?php echo $this->get_field_id( 'type_defilement' ); ?>"><?php _e( 'Type de défilement du slide :"' ); ?></label>     
+                <label for="<?php echo $this->get_field_id( 'type_defilement' ); ?>"><?php _e( 'Type de défilement du slide :' ); ?></label>     
                 <select class="widefat" id="<?php echo $this->get_field_id( 'type_defilement' ); ?>" name="<?php echo $this->get_field_name( 'type_defilement' ); ?>" >
-                <input class="widefat" id="<?php echo $this->get_field_id( 'type_defilement' ); ?>" name="<?php echo $this->get_field_name( 'type_defilement' ); ?>" type="text" value="<?php echo esc_attr( $type_defilement ); ?>" />
+                    <option value="fade" <?php if ($instance[ 'type_defilement' ]=="fade") echo ' selected="selected"'; ?> >Fade - Fondu (par défaut)</option>
+                    <option value="scrollLeft" <?php if ($instance[ 'type_defilement' ]=="scrollLeft") echo ' selected="selected"'; ?>>Scroll Left - Défilement vers la gauche</option>
+                    <option value="scrollRight" <?php if ($instance[ 'type_defilement' ]=="scrollRight") echo ' selected="selected"'; ?>>Scroll Right - Défilement vers la droite</option>
+                    <option value="scrollUp" <?php if ($instance[ 'type_defilement' ]=="scrollUp") echo ' selected="selected"'; ?>>Scroll Up - Défilement vers le haut</option>
+                    <option value="scrollDown" <?php if ($instance[ 'type_defilement' ]=="scrollDown") echo ' selected="selected"'; ?>>Scroll Down - Défilement vers le bas</option>
+                    <option value="blindX" <?php if ($instance[ 'type_defilement' ]=="blindX") echo ' selected="selected"'; ?>>Blind X - Effet rouleau horizontal</option>
+                    <option value="blindY" <?php if ($instance[ 'type_defilement' ]=="blindY") echo ' selected="selected"'; ?>>Blind Y - Effet rouleau vertical</option>
+                    <option value="turnUp" <?php if ($instance[ 'type_defilement' ]=="turnUp") echo ' selected="selected"'; ?>>Turn Up - Effet de dés vers le haut</option>
+                    <option value="turnDown" <?php if ($instance[ 'type_defilement' ]=="turnDown") echo ' selected="selected"'; ?>>Turn Down - Effet de dés vers le bas</option>
+                    <option value="turnLeft" <?php if ($instance[ 'type_defilement' ]=="turnLeft") echo ' selected="selected"'; ?>>Turn Left - Effet de dés vers la gauche</option>
+                    <option value="turnRight" <?php if ($instance[ 'type_defilement' ]=="turnRight") echo ' selected="selected"'; ?>>Turn Right - Effet de dés vers la droite</option>
+                    <option value="zoom" <?php if ($instance[ 'type_defilement' ]=="zoom") echo ' selected="selected"'; ?>>Zoom - Effet de Zoom</option>
+                </select>
                 <br/><br/>
-                <label for="<?php echo $this->get_field_id( 'duree_defilement' ); ?>"><?php _e( 'Vitesse de l\'effet entre 2 slides :"' ); ?></label> 
+                <label for="<?php echo $this->get_field_id( 'duree_defilement' ); ?>"><?php _e( 'Vitesse de l\'effet entre 2 slides :' ); ?></label> 
                 <input class="widefat" id="<?php echo $this->get_field_id( 'duree_defilement' ); ?>" name="<?php echo $this->get_field_name( 'duree_defilement' ); ?>" type="text" value="<?php echo esc_attr( $duree_defilement ); ?>" />
                 <br/><br/>
-                <label for="<?php echo $this->get_field_id( 'delai_defilement' ); ?>"><?php _e( 'Durée d\'affichage d\'une slide :"' ); ?></label> 
+                <label for="<?php echo $this->get_field_id( 'delai_defilement' ); ?>"><?php _e( 'Durée d\'affichage d\'une slide :' ); ?></label> 
                 <input class="widefat" id="<?php echo $this->get_field_id( 'delai_defilement' ); ?>" name="<?php echo $this->get_field_name( 'delai_defilement' ); ?>" type="text" value="<?php echo esc_attr( $delai_defilement ); ?>" />
             </p>
             <?php 
