@@ -30,9 +30,13 @@ if (function_exists('add_action')) {
 	};
 
 $params = array();
+	$params['instances'][] = '.widget-' . $instance_hestia . ' .hestia_slider_photo';
+	$params['direction'][] = $instance_hestia['direction'];
+	$params['vitesse'][] = $instance_hestia['vitesse'];
+	$params['timeout'][] = $instance_hestia['timeout'];
 	
 #Gestion du slider en front page
-function hestia_slider($args_hestia, $instance_hestia='1', $widget_title='HESTIA Slider', $lien_voir_actus='Voir toutes les actus', $nom_widget) 
+function hestia_slider($args_hestia, $instance_hestia='1', $widget_title='HESTIA Slider', $lien_voir_actus='Voir toutes les actus', $direction='fade', $vitesse='700', $timeout='5000', $nom_widget) 
 {
 	global $post;
 	global $params;
@@ -100,13 +104,13 @@ function hestia_slider($args_hestia, $instance_hestia='1', $widget_title='HESTIA
 			'posts_per_page'	=>	$hestia_config['nb_slides'],
 			'post_type' 		=> 	'post-hestia-slider',
 			'post_status' 		=> 	'publish',
-			'orderby'    		=>  'post_date',
-			'order'    			=>	'DESC',
-			'paged' 			=> 	$home_paged,
-			'meta_query' 		=> array(
+			'orderby'    		=>      'post_date',
+			'order'    		=>	'DESC',
+			'paged' 		=> 	$home_paged,
+			'meta_query' 		=>  array(
 				array(
-					'key' 		=> 	'select_module_hestia',
-					'value'		=>	$instance_hestia
+					'key'       => 	'select_module_hestia',
+					'value'     =>	$instance_hestia
 				)
 			)
 		);
@@ -199,31 +203,63 @@ function hestia_slider($args_hestia, $instance_hestia='1', $widget_title='HESTIA
 	# Suite du chargement des scripts
 	$activation_optimise_code_2 = get_option('activation_optimise_code');
 	$params['instances'][] = '.widget-' . $instance_hestia . ' .hestia_slider_photo';
-	$params['direction'][] = $instance_hestia['type_defilement'];
-	$params['vitesse'][] = $instance_hestia['duree_defilement'];
-	$params['timeout'][] = $instance_hestia['delai_defilement'];
+	$params['direction'][] = $direction;
+	$params['vitesse'][] = $vitesse;
+	$params['timeout'][] = $timeout;
 	# Chargement optimisé des scripts
 	if( !is_admin() && $activation_optimise_code_2['desactive_optimise_code'] === "1" ){
-		wp_localize_script( 'hestia_slider', 'Hestia_Slider_Params', $params );
-	# Chargement non optimisé des scripts
+                script_hestia($params);
+            //    wp_enqueue_script('hestia_slider', plugins_url( hestia_slider ) . '/js/hestia_slider.js', array('jquery'), '1.0.0', true);
+            //    wp_localize_script( 'hestia_slider', 'Hestia_Slider_Params', $params );
+            ?>
+            <script type="text/javascript">
+            (function($){ 
+                jQuery(document).ready(function($){
+                    for (var ix_instance = 0; ix_instance <= Math.floor(Object.keys(<?php echo json_encode($params); ?>).length/4); ix_instance++) {
+                        // Fait plusieurs boucles en fonction du nombre d'instances du module
+                        $(<?php echo json_encode($params["instances"][ix_instance]); ?>).cycle({
+                            fx: <?php echo json_encode($params["direction"][ix_instance]); ?>,
+                            speed: <?php echo json_encode($params["vitesse"][ix_instance]); ?>,
+                            timeout: <?php echo json_encode($params["timeout"][ix_instance]); ?>,
+                            pause: 1
+                        });
+                    };
+                });
+            })(jQuery);
+            </script>
+            <?php
+        # Chargement non optimisé des scripts
 	} else {
-		?>
-		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js"></script> 
-		<script type="text/javascript" src="http://malsup.github.com/jquery.cycle.all.js"></script> 
-		<?php
-			wp_enqueue_script('hestia_slider', plugins_url( hestia_slider ) . '/js/hestia_slider.js', array('jquery'));
-			wp_localize_script( 'hestia_slider', 'Hestia_Slider_Params', $params );
-	}
+            ?>
+            <script type="text/javascript">
+            (function($){ 
+                jQuery(document).ready(function($){
+                    for (var ix_instance = 0; ix_instance <= Math.floor(Object.keys(<?php echo json_encode($params); ?>).length/4); ix_instance++) {
+                        // Fait plusieurs boucles en fonction du nombre d'instances du module
+                        $(<?php echo json_encode($params["instances"][ix_instance]); ?>).cycle({
+                            fx: <?php echo json_encode($params["direction"][ix_instance]); ?>,
+                            speed: <?php echo json_encode($params["vitesse"][ix_instance]); ?>,
+                            timeout: <?php echo json_encode($params["timeout"][ix_instance]); ?>,
+                            pause: 1
+                        });
+                    };
+                });
+            })(jQuery);
+            </script>
+            <?php
+            //    wp_enqueue_script('hestia_slider', plugins_url( hestia_slider ) . '/js/hestia_slider.js', array('jquery'), '1.0.0', true);
+            //    wp_localize_script( 'hestia_slider', 'Hestia_Slider_Params', $params );
+        }
 }
 
 // ******************************************************************************************
 // ************	   Remplace "[...]" (généré automatiquement pour les résumés)	*************
-// ************	  			par une ellipse et le lien configuré dans 			*************
-// ************	  			le lien lire plus... à la fin du résumé				*************
-// ************																	*************
-// ************	 		  Pour changer cette valeur dans un sous-template, 		*************
-// ************	 			enlever le filtre et ajoutez votre fonction   		*************
-// ************	 			"the excerpt_length" avec le filter hook.  			*************
+// ************             par une ellipse et le lien configuré dans 		*************
+// ************             le lien lire plus... à la fin du résumé		*************
+// ************									*************
+// ************	 	Pour changer cette valeur dans un sous-template, 	*************
+// ************             enlever le filtre et ajoutez votre fonction   	*************
+// ************             "the excerpt_length" avec le filter hook.  		*************
 // ******************************************************************************************
 
 function hestia_slider_auto_excerpt_more( $more ) {
@@ -234,11 +270,11 @@ function hestia_slider_auto_excerpt_more( $more ) {
 add_filter( 'excerpt_more', 'hestia_slider_auto_excerpt_more' );
 
 // ******************************************************************************************
-// ************			Ajoute "Continuer la lecture" aux résumés d'articles 	*************
-// ************																	*************
-// ************	 		  Pour changer cette valeur dans un sous-template, 		*************
-// ************	 			enlever le filtre et ajoutez votre fonction   		*************
-// ************	 			"the excerpt_length" avec le filtre hook.  			*************
+// ************		Ajoute "Continuer la lecture" aux résumés d'articles 	*************
+// ************									*************
+// ************          Pour changer cette valeur dans un sous-template, 	*************
+// ************             enlever le filtre et ajoutez votre fonction   	*************
+// ************             "the excerpt_length" avec le filtre hook.  		*************
 // ******************************************************************************************
 
 function hestia_slider_custom_excerpt_more( $output ) {
@@ -250,7 +286,7 @@ function hestia_slider_custom_excerpt_more( $output ) {
 add_filter( 'get_the_excerpt', 'hestia_slider_custom_excerpt_more' );
 
 // ******************************************************************************************
-// ************		Conserve la mise en forme html des résumés d'articles 		*************
+// ************		Conserve la mise en forme html des résumés d'articles 	*************
 // ******************************************************************************************
 
 function improved_trim_excerpt($text) {

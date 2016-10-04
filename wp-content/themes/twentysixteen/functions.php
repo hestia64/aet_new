@@ -460,3 +460,17 @@ function twentysixteen_widget_tag_cloud_args( $args ) {
 	return $args;
 }
 add_filter( 'widget_tag_cloud_args', 'twentysixteen_widget_tag_cloud_args' );
+
+/**
+ * **********************************************************
+ *
+ * @since Twenty Sixteen 1.1
+ *
+ * @param 
+ * @return 
+ */
+function script_hestia($parametres) {
+    wp_enqueue_script('hestia_slider', plugins_url( hestia_slider ) . '/js/hestia_slider.js', array('jquery'), '1.0.0', true);
+    wp_localize_script( 'hestia_slider', 'Hestia_Slider_Params', $parametres );
+}
+add_action( 'wp_enqueue_scripts', 'script_hestia' );
