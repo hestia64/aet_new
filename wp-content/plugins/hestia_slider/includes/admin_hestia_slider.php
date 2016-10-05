@@ -82,7 +82,7 @@ function hestia_slider_admin_options()
 		}
 	?>
 	<!-- Code html de la page administration -->
-	<h1 style="font-family: georgia, verdana, arial; text-align: center; color: #993333"><?php echo wp_specialchars( "Réglages du module Hestia Slider" ) ; ?></h1>
+	<h1 style="font-family: georgia, verdana, arial; text-align: center; color: #993333"><?php echo wp_specialchars( "Réglages du plugin Hestia Slider" ) ; ?></h1>
 	<form name="config_slider_defaut" method="post" action="" style="width: 300px; margin: 10px auto">
 		<input name="hestia_slider_defaut" id="hestia_slider_defaut" class="button-primary" value="Re-initialiser tous les paramètres par défaut" type="submit" style="width: inherit;" />
 	</form>
@@ -91,7 +91,7 @@ function hestia_slider_admin_options()
 		<div  id="params_slide" class="postbox" style="width: 40%; min-height: 650px; padding: 0px 15px 15px 15px; float: left">
 			<h2 class="hndle" style="text-align: center; color: #999999"><span><?php echo wp_specialchars( "Paramètres du module" ) ; ?></h2>
 			<form name="hestia_slider_form" method="post" action="">
-				<p><FIELDSET><LEGEND align=top ><h3>Effet du Slider :</h3></LEGEND>
+			<!--	<p><FIELDSET><LEGEND align=top ><h3>Effet du Slider :</h3></LEGEND>
 				<select style="width: 250px;" maxlength="50" type="text" name="direction">
 					 <option value="fade" <?php if ($hestia_config['direction']=="fade") echo ' selected="selected"'; ?> >Fade - Fondu (par défaut)</option>
 					 <option value="scrollLeft" <?php if ($hestia_config['direction']=="scrollLeft") echo ' selected="selected"'; ?>>Scroll Left - Défilement vers la gauche</option>
@@ -107,7 +107,7 @@ function hestia_slider_admin_options()
 					 <option value="zoom" <?php if ($hestia_config['direction']=="zoom") echo ' selected="selected"'; ?>>Zoom - Effet de Zoom</option>
 				</select>
 				</FIELDSET></p>
-				<p><FIELDSET><LEGEND align=top ><h3 style="margin-bottom: 5px !important">Position de l'image par rapport au texte :</h3></LEGEND>
+			-->	<p><FIELDSET><LEGEND align=top ><h3 style="margin-bottom: 5px !important">Position de l'image par rapport au texte :</h3></LEGEND>
 					<INPUT type= "radio" name="position" value="haut" <?php if ($hestia_config['position']=="haut") echo ' checked="checked"'; ?> >
 					<LABEL for="position"> Image au dessus du texte &nbsp; &nbsp; &nbsp;</LABEL>
 					<INPUT type= "radio" name="position" value="bas" <?php if ($hestia_config['position']=="bas") echo ' checked="checked"'; ?> >
@@ -119,7 +119,7 @@ function hestia_slider_admin_options()
 					<INPUT type= "radio" name="position" value="droite" <?php if ($hestia_config['position']=="droite") echo ' checked="checked"'; ?> >
 					<LABEL for="position"> Image à droite du texte &nbsp; &nbsp; &nbsp;</LABEL>
 				</FIELDSET></p>
-				<p><FIELDSET><LEGEND align=top ><h3 style="margin-bottom: 5px !important">Vitesse de l&apos;effet :</h3></LEGEND>
+			<!--	<p><FIELDSET><LEGEND align=top ><h3 style="margin-bottom: 5px !important">Vitesse de l&apos;effet :</h3></LEGEND>
 					<input  style="width: 45px;" maxlength="4" type="text" value="<?php echo $hestia_config['vitesse'] ?>" name="vitesse" id="vitesse" />
 					&nbsp;( Temps en millisecondes - par défaut "700" )
 				</FIELDSET></p>
@@ -127,7 +127,7 @@ function hestia_slider_admin_options()
 					<input  style="width: 45px;" maxlength="4" type="text" value="<?php echo $hestia_config['timeout'] ?>" name="timeout" id="timeout" />
 					&nbsp;( Temps en millisecondes - par défaut "5000" )
 				</FIELDSET></p>
-				<p><FIELDSET><LEGEND align=top ><h3 style="margin-bottom: 5px !important">Nombre de slides :</h3></LEGEND>
+			-->	<p><FIELDSET><LEGEND align=top ><h3 style="margin-bottom: 5px !important">Nombre de slides :</h3></LEGEND>
 					<input  style="width: 45px;" maxlength="4" type="text" value="<?php echo $hestia_config['nb_slides'] ?>" name="nb_slides" id="nd_slides" />
 					&nbsp;( Entrez le nombre de slides - par défaut "-1" pour toutes )
 				</FIELDSET></p>
@@ -147,11 +147,11 @@ function hestia_slider_admin_options()
 					<input  style="width: 45px;" maxlength="4" type="text" value="<?php echo $hestia_config['hauteur_image'] ?>" name="hauteur_image" id="hauteur_image" />
 					&nbsp;( Entrez la hauteur de l&apos;image à la une en pixels - par défaut "165" )
 				</FIELDSET></p>
-				<p><FIELDSET><LEGEND align=top ><h3 style="margin-bottom: 5px !important">Texte du lien "Lire plus..." :</h3></LEGEND>
+			<!--	<p><FIELDSET><LEGEND align=top ><h3 style="margin-bottom: 5px !important">Texte du lien "Lire plus..." :</h3></LEGEND>
 					<input  style="width: 150px;" maxlength="20" type="text" value="<?php echo $hestia_config['lien_lire_plus'] ?>" name="lien_lire_plus" id="lien_lire_plus" />
 					<br/>&nbsp;( Saisissez le texte à afficher - par défaut "Lire plus..." )
 				</FIELDSET></p>
-				<input name="hestia_slider_submit" id="hestia_slider_submit" class="button-primary" value="Enregistrer les paramètres du module" type="submit" style="float: left;  width: 300px; margin: 10px 10px 10px 10px;" />
+			-->	<input name="hestia_slider_submit" id="hestia_slider_submit" class="button-primary" value="Enregistrer les paramètres du module" type="submit" style="float: left;  width: 300px; margin: 10px 10px 10px 10px;" />
 			</form>
 		</div>
 		<!-- Formulaire de saisie des options du module -->
@@ -208,7 +208,8 @@ function hestia_slider_admin_options()
 			</form>
 		</div>
 		<!-- Explications sur le fonctionnement du module -->
-		<div id="details_plugin_slider" class="postbox" style="width: 50%; min-height: 250px; padding: 0px 15px 15px 15px; margin: 15px 15px 0px 0px; float: right;">
+		<!--
+                <div id="details_plugin_slider" class="postbox" style="width: 50%; min-height: 250px; padding: 0px 15px 15px 15px; margin: 15px 15px 0px 0px; float: right;">
 			<h2 style="text-align: center; color: #999999"><?php echo wp_specialchars( "Explications" ) ; ?></h2>
 			<p><h4>
 				Plugin Wordpress permettant de créer un slider avec image et description séparés.<br/>
@@ -231,10 +232,11 @@ function hestia_slider_admin_options()
 				<input name="optimise_code_submit" id="optimise_code_submit" class="button-primary" value="Valider l'activation/désactivation du code javascript" type="submit" style="float: left;  width: 300px; margin: 10px 10px 10px 10px;" />
 			</form>
 		</div>
+                -->
 	</div>
 	<!-- Copyright du module -->
 	<div id="copyright_slider" style=" clear: both; float: left; width: 100%; height: 30px; padding-top: 5px">
-		<h3 style="text-align: center; color: #993333">Plugin HESTIA Slider v2.5 créé par HESTIA Multimédia &#169; 2013</h3>
+		<h3 style="text-align: center; color: #993333">Plugin HESTIA Slider v3.0 créé par HESTIA Multimédia &#169; 2016</h3>
 	</div>
 	<?php 	
 }
