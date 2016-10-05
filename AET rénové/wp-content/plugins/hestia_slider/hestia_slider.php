@@ -62,123 +62,121 @@ if (function_exists('add_action')) {
 		}
 	}
 	
-	# Réglages de base de la page Administration
-	# Ajout de la taxonomie "Tags"
-	add_action('init', 'my_custom_init');
-		function my_custom_init()
-		{
-			$labels_slider = array(
-				'name' 			=>	'HESTIA Slider',
-				'singular_name' 	=> 	'Slider',
-				'add_new'		=> 	'Ajouter un slide',
-				'add_new_item' 		=> 	'Ajouter un slide',
-				'edit_item' 		=> 	'Editer un slide',
-				'new_item' 		=> 	'Nouveau slide',
-				'all_items' 		=> 	'Tous les slides',
-				'view_item' 		=> 	'Voir slides',
-				'search_items' 		=> 	'Chercher slide',
-				'not_found' 		=>      'Pas de Slide trouvé',
-				'not_found_in_trash'    => 	'Pas de Slide trouvé dans la corbeille', 
-				'parent_item_colon'     => 	'',
-				'menu_name' 		=> 	'HESTIA Slider'
-			);
-			$args_slider = array(
-				'labels' 		=>      $labels_slider,
-				'public' 		=>      true,
-				'publicly_queryable'    =>      true,
-				'show_ui' 		=>      true, 
-				'show_in_menu' 		=>      true, 
-				'query_var' 		=>      true,
-				'rewrite' 		=>      array('slug' => 'post-hestia-slider', 'with_front' => false),
-				'capability_type' 	=>      'post',
-				'has_archive' 		=>      'post-hestia-slider', 
-				'hierarchical' 		=>      false,
-				'menu_position' 	=>      null,
-				'taxonomies' 		=>      array( 'post_tag' ),
-				'supports' 		=>      array('title', 'editor', 'author', 'thumbnail')
-			);
-			register_post_type( 'post-hestia-slider',$args_slider );
-		
-			# Ajout et paramètrage de la taxonomie "thumbnails"
-			$hestia_slider_largeur_image = stripslashes(get_option('hestia_slider_largeur_image'));
-			$hestia_slider_hauteur_image = stripslashes(get_option('hestia_slider_hauteur_image'));
-			if (function_exists('add_theme_support')) {
-				add_theme_support( 'post-thumbnails' );
-			}
-			set_post_thumbnail_size( $hestia_slider_largeur, $hestia_slider_hauteur_image ); 
-			add_image_size( 'miniature-archives', $hestia_slider_largeur_image, 9999 ); 
-			
-			# Création de la taxonomie "Sélection module" 
-			function add_select_module_box() {
-				add_meta_box('selection_module', __('Sélection du module'), 'selection_module_choix', 'post-hestia-slider', 'side', 'core');
-			}	
-			add_action('admin_menu', 'add_select_module_box');
-			
-			# Gestion de la sélection de l'instance du widget utilisé
-			function selection_module_choix () {
-				$sidebars_widgets = wp_get_sidebars_widgets();
-				empty($liste_widgets);
-				$select_module_hestia = stripslashes(get_option('select_module_hestia'));
-				$tag_slider_hestia = stripslashes(get_option('tag_slider_hestia'));
-				?>
-				<select name="select_module_hestia" id="select_module_hestia">
-					<?php
-					if ( is_array($sidebars_widgets) ) {
-						foreach ( $sidebars_widgets as $sidebar => $widgets ) {
-							if ( $sidebar == 'wp_inactive_widgets' )
-							continue;
-							if ( is_array($widgets) ) {
-								# Cherche l'instance du module correspondant au choix de l'utilisateur
-								# et le sélectionne par défaut dans la boite de dialogue
-								foreach ( $widgets as $widget ) {
-									if ( ( _get_widget_id_base($widget) == 'hestia-slider') ) {
-										$liste_widgets[$index_liste] = $widget;
-										$index_liste += 1;
-										$select_module_hestia_values = get_post_custom_values('select_module_hestia');
-										echo '<option value="' . $widget . '"';
-										if ( $widget==$select_module_hestia_values[0] ) { 
-											echo ' selected="selected"';
-											$tag_slider_hestia = $widget;
-										};
-										echo '>' . $widget . '</option>';
-									}
-									
-								}	
-							}
-						}	
-					}
-					?>
-				</select>
-				<?php		
-				echo '<p>' . $tag_slider_hestia . '</p>';
-			}
-			
-			# Sauvegarde de la taxonomie "Sélection du module HESTIA"
-			function mybox_save_postdata( $post_id ) {
-				#   ne rien faire en auto-save
-				if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
-				#   vérification des droits permissions
-				if ( 'post-hestia-slider' == $_POST['post_type'] ) {
-				    if ( !current_user_can( 'edit_page', $post_id ) ) return;
-				} else {
-					if ( !current_user_can( 'edit_post', $post_id ) ) return;
-				}
-				#   ajouter éventuellement des vérifications pour les custom post types
-				if(isset($_POST['select_module_hestia']))
-					update_post_meta($post_id, 'select_module_hestia', $_POST['select_module_hestia']);
-			}
-			add_action('save_post', 'mybox_save_postdata');
-			
-			# Insertion automatique, lors de la sauvegarde, du tag nommé comme le choix du module HESTIA  
-			function insert_tag( $post_id ) {
-				$term_id = term_exists( $_POST['select_module_hestia'], 'post_tag' );
-				if ( !$term_id ) $term_id = wp_insert_term( $_POST['select_module_hestia'], 'post_tag' );
-				wp_set_object_terms( $post_id, $_POST['select_module_hestia'], 'post_tag' );
-				return $term_id;
-			}
-			add_action( 'save_post', 'insert_tag' );
+# Réglages de base de la page Administration
+# Ajout de la taxonomie "Tags"
+add_action('init', 'my_custom_init');
+    function my_custom_init() {
+    $labels_slider = array(
+        'name'                  =>	'HESTIA Slider',
+        'singular_name'         => 	'Slider',
+        'add_new'               => 	'Ajouter un slide',
+        'add_new_item'          => 	'Ajouter un slide',
+        'edit_item'             => 	'Editer un slide',
+        'new_item'              => 	'Nouveau slide',
+        'all_items'             => 	'Tous les slides',
+        'view_item'             => 	'Voir slides',
+        'search_items'          => 	'Chercher slide',
+        'not_found'             =>      'Pas de Slide trouvé',
+        'not_found_in_trash'    => 	'Pas de Slide trouvé dans la corbeille', 
+        'parent_item_colon'     => 	'',
+        'menu_name'             => 	'HESTIA Slider'
+    );
+    $args_slider = array(
+        'labels'                =>      $labels_slider,
+        'public'                =>      true,
+        'publicly_queryable'    =>      true,
+        'show_ui'               =>      true, 
+        'show_in_menu'          =>      true, 
+        'query_var'             =>      true,
+        'rewrite'               =>      array('slug' => 'post-hestia-slider', 'with_front' => false),
+        'capability_type'       =>      'post',
+        'has_archive'           =>      'post-hestia-slider', 
+        'hierarchical'          =>      false,
+        'menu_position'         =>      null,
+        'taxonomies'            =>      array( 'post_tag' ),
+        'supports'              =>      array('title', 'editor', 'author', 'thumbnail')
+    );
+    register_post_type( 'post-hestia-slider',$args_slider );
 
-		}
+    # Ajout et paramètrage de la taxonomie "thumbnails"
+    $hestia_slider_largeur_image = stripslashes(get_option('hestia_slider_largeur_image'));
+    $hestia_slider_hauteur_image = stripslashes(get_option('hestia_slider_hauteur_image'));
+    if (function_exists('add_theme_support')) {
+        add_theme_support( 'post-thumbnails' );
+    }
+    set_post_thumbnail_size( $hestia_slider_largeur, $hestia_slider_hauteur_image ); 
+    add_image_size( 'miniature-archives', $hestia_slider_largeur_image, 9999 ); 
+
+    # Création de la taxonomie "Sélection module" 
+    function add_select_module_box() {
+        add_meta_box('selection_module', __('Sélection du module'), 'selection_module_choix', 'post-hestia-slider', 'side', 'core');
+    }	
+    add_action('admin_menu', 'add_select_module_box');
+
+    # Gestion de la sélection de l'instance du widget utilisé
+    function selection_module_choix () {
+        $sidebars_widgets = wp_get_sidebars_widgets();
+        empty($liste_widgets);
+        $select_module_hestia = stripslashes(get_option('select_module_hestia'));
+        $tag_slider_hestia = stripslashes(get_option('tag_slider_hestia'));
+        ?>
+        <select name="select_module_hestia" id="select_module_hestia">
+            <?php
+            if ( is_array($sidebars_widgets) ) {
+                foreach ( $sidebars_widgets as $sidebar => $widgets ) {
+                    if ( $sidebar == 'wp_inactive_widgets' )
+                    continue;
+                    if ( is_array($widgets) ) {
+                        # Cherche l'instance du module correspondant au choix de l'utilisateur
+                        # et le sélectionne par défaut dans la boite de dialogue
+                        foreach ( $widgets as $widget ) {
+                            if ( ( _get_widget_id_base($widget) == 'hestia-slider') ) {
+                                $liste_widgets[$index_liste] = $widget;
+                                $index_liste += 1;
+                                $select_module_hestia_values = get_post_custom_values('select_module_hestia');
+                                echo '<option value="' . $widget . '"';
+                                if ( $widget==$select_module_hestia_values[0] ) { 
+                                    echo ' selected="selected"';
+                                    $tag_slider_hestia = $widget;
+                                };
+                                echo '>' . $widget . '</option>';
+                            }
+                        }	
+                    }
+                }	
+            }
+            ?>
+        </select>
+        <?php		
+        echo '<p>' . $tag_slider_hestia . '</p>';
+    }
+
+    # Sauvegarde de la taxonomie "Sélection du module HESTIA"
+    function mybox_save_postdata( $post_id ) {
+        #   ne rien faire en auto-save
+        if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
+        #   vérification des droits permissions
+        if ( 'post-hestia-slider' == $_POST['post_type'] ) {
+            if ( !current_user_can( 'edit_page', $post_id ) ) return;
+        } else {
+            if ( !current_user_can( 'edit_post', $post_id ) ) return;
+        }
+        #   ajouter éventuellement des vérifications pour les custom post types
+        if(isset($_POST['select_module_hestia'])) {
+            update_post_meta($post_id, 'select_module_hestia', $_POST['select_module_hestia']);
+        }
+    }
+    add_action('save_post', 'mybox_save_postdata');
+
+    # Insertion automatique, lors de la sauvegarde, du tag nommé comme le choix du module HESTIA  
+    function insert_tag( $post_id ) {
+        $term_id = term_exists( $_POST['select_module_hestia'], 'post_tag' );
+        if ( !$term_id ) $term_id = wp_insert_term( $_POST['select_module_hestia'], 'post_tag' );
+        wp_set_object_terms( $post_id, $_POST['select_module_hestia'], 'post_tag' );
+        return $term_id;
+    }
+    add_action( 'save_post', 'insert_tag' );
+}
 		
 # Initialisation du widget
 add_action( 'widgets_init','initialisation_widget_hestia_slider');
@@ -238,7 +236,7 @@ add_action( 'widgets_init','initialisation_widget_hestia_slider');
                 $direction = $instance['direction'];
             }
             else {
-                $direction = __( 'Type de défilement du slide', 'hestia_slider_traduction' );
+                $direction = __( 'fade', 'hestia_slider_traduction' );
             }
             if ( isset( $instance['vitesse'] ) ) {
                 $vitesse = $instance['vitesse'];
